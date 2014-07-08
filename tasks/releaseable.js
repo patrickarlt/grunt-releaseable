@@ -20,20 +20,6 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('releaseable', 'Opinionated software release plugin for Grunt. Use to release repos on NPM, Bower and Component.', function() {
     var VERSION_REGEXP = /([\'|\"]?version[\'|\"]?[ ]*:[ ]*[\'|\"]?)([\d||A-a|.|-]*)([\'|\"]?)/i;
 
-    function bumpFile(file){
-      grunt.log.write('bumping '+ file + ' to ' + opts.version + '... ');
-      if(!opts.dryRun){
-        var content = grunt.file.read(file).replace(VERSION_REGEXP, function(match){
-          if (!match) {
-            grunt.fatal('no version to bump in ' + file);
-          }
-          return opts.version;
-        });
-        grunt.file.write(file, content);
-      }
-      grunt.log.ok();
-    }
-
     var packageVersion = grunt.file.readJSON('package.json').version;
 
     var opts = this.options({
@@ -43,6 +29,20 @@ module.exports = function(grunt) {
       remote: 'origin',
       dryRun: false
     });
+
+    function bumpFile(file){
+      grunt.log.write('bumping '+ file + ' to ' + opts.version + '... ');
+      if(!opts.dryRun){
+        var content = grunt.file.read(file).replace(VERSION_REGEXP, function(match, prefix, parsedVersion, suffix){
+          if (!match) {
+            grunt.fatal('no version to bump in ' + file);
+          }
+          return prefix + opts.version + suffix;
+        });
+        grunt.file.write(file, content);
+      }
+      grunt.log.ok();
+    }
 
     if(opts.test){
       grunt.log.write('running tests with ' + opts.test + '... ');

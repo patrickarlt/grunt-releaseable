@@ -1,6 +1,6 @@
 {
-  "name": "releaseable",
-  v0.0.1,
+  "name": "releaseable-test",
+  "version": "v0.0.1",
   "authors": [
     "Patrick Arlt <patrick.arlt@gmail.com>"
   ],
