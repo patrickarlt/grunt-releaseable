@@ -1,0 +1,26 @@
+{
+  "name": "releaseable",
+  "version": "0.0.1",
+  "authors": [
+    "Patrick Arlt <patrick.arlt@gmail.com>"
+  ],
+  "description": "Test of the grunt-releasable plugin",
+  "main": "test/test.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "test"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/patrickarlt/grunt-releaseable",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
