@@ -24,7 +24,7 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "grunt test",
+    "test": "exit 0",
     "prepublish": "exit 0"
   },
   "devDependencies": {
@@ -36,5 +36,9 @@
   },
   "keywords": [
     "gruntplugin"
-  ]
+  ],
+  "dependencies": {
+    "shelljs": "~0.3.0",
+    "semver": "~2.3.1"
+  }
 }

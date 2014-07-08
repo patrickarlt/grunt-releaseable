@@ -47,7 +47,7 @@ module.exports = function(grunt) {
     if(opts.test){
       grunt.log.write('running tests with ' + opts.test + '... ');
       if(!opts.dryRun){
-        shelljs.exec(opts.test + ' || exit(1)');
+        shelljs.exec(opts.test);
       }
       grunt.log.ok();
     }

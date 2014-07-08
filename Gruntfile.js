@@ -20,6 +20,11 @@ module.exports = function(grunt) {
       options: {
         jshintrc: '.jshintrc'
       }
+    },
+    releaseable: {
+      build: {
+        options: {}
+      }
     }
   });
 
