@@ -109,6 +109,18 @@ Default value: `true`
 
 If `false` this will enable verbose output from all shell commands run by `grunt releaseable`.
 
+#### options.bumpCommitMsg
+Type: `Function`
+Default value: `function(version){ return 'bumping version  to ' + version }`
+
+Function used to format the commit message after setting version in `bower.json`.
+
+#### options.buildCommitMsg
+Type: `Function`
+Default value: `function(version){ return 'build ' + version }`
+
+Function used to format the commit message after building the project for release.
+
 ### Usage Examples
 
 #### Default Options

@@ -26,7 +26,9 @@ module.exports = function(grunt) {
       remote: 'origin',
       mainBranch: 'master',
       dryRun: false,
-      silent: true
+      silent: true,
+      bumpCommitMsg: function(version){ return 'bumping version  to ' + version; },
+      buildCommitMsg: function(version){ return 'building ' + version; }
     });
 
     function bumpFile(file){
@@ -60,7 +62,7 @@ module.exports = function(grunt) {
 
       grunt.log.write('commiting bummped files... ');
       if(!opts.dryRun){
-        shelljs.exec('git commit -am"bumping version  to '+ opts.version + '"', {silent: opts.silent});
+        shelljs.exec('git commit -am"' + opts.bumpCommitMsg(opts.version) + '"', {silent: opts.silent});
       }
       if(!opts.silent){
         grunt.log.ok();
@@ -87,7 +89,7 @@ module.exports = function(grunt) {
 
     grunt.log.write('commiting built files... ');
     if(!opts.dryRun){
-      shelljs.exec('git commit -am"build version '+ opts.version + '"', {silent: opts.silent});
+      shelljs.exec('git commit -am"' + opts.buildCommitMsg(opts.version) + '"', {silent: opts.silent});
     }
     if(!opts.silent){
       grunt.log.ok();

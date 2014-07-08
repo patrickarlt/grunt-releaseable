@@ -1,7 +1,7 @@
 {
   "name": "grunt-releaseable",
   "description": "Opinionated software release plugin for Grunt. Use to release repos on NPM, Bower and Component.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "homepage": "https://github.com/patrickarlt/grunt-releaseable",
   "author": {
     "name": "Patrick Arlt",
