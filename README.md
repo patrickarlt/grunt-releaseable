@@ -134,7 +134,11 @@ grunt.initConfig({
         build: 'npm prepublish',
         test: 'npm test',
         remote: 'origin',
-        dryRun: false
+        mainBranch: 'master',
+        dryRun: false,
+        silent: true,
+        bumpCommitMsg: function(version){ return 'bumping version  to ' + version; },
+        buildCommitMsg: function(version){ return 'building ' + version; }
       }
     }
   }
