@@ -17,7 +17,7 @@ module.exports = function(grunt) {
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
 
-  grunt.registerMultiTask('releaseable', 'Opinionated software release plugin for Grunt. Use to release repos on NPM, Bower and Component.', function() {
+  grunt.registerMultiTask('releaseable', 'Opinionated task for running the test, build, tag, publish cycle', function() {
     var VERSION_REGEXP = /([\'|\"]?version[\'|\"]?[ ]*:[ ]*[\'|\"]?)([\d||A-a|.|-]*)([\'|\"]?)/i;
 
     var packageVersion = grunt.file.readJSON('package.json').version;
@@ -27,6 +27,7 @@ module.exports = function(grunt) {
       build: 'npm prepublish',
       test: 'npm test',
       remote: 'origin',
+      mainBranch: 'master',
       dryRun: false
     });
 
@@ -54,16 +55,10 @@ module.exports = function(grunt) {
 
     if(fs.existsSync('bower.json')){
       bumpFile('bower.json');
-    }
 
-    if(fs.existsSync('component.json')){
-      bumpFile('component.json');
-    }
-
-    if(fs.existsSync('bower.json') || fs.existsSync('component.json')){
       grunt.log.write('commiting bummped files... ');
       if(!opts.dryRun){
-        shelljs.exec('git commit -am"bumping version  to'+ opts.version + '"');
+        shelljs.exec('git commit -am"bumping version  to '+ opts.version + '"');
       }
       grunt.log.ok();
     }
@@ -108,7 +103,7 @@ module.exports = function(grunt) {
 
     grunt.log.write('cleaning up... ');
     if(!opts.dryRun){
-      shelljs.exec('git checkout master');
+      shelljs.exec('git checkout '+ opts.mainBranch);
       shelljs.exec('git branch -D _releaseable');
     }
     grunt.log.ok();

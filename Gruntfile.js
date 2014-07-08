@@ -22,7 +22,7 @@ module.exports = function(grunt) {
       }
     },
     releaseable: {
-      build: {
+      release: {
         options: {}
       }
     }

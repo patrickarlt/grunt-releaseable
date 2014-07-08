@@ -1,13 +1,13 @@
 # grunt-releaseable
 
-Opinionated software release plugin for Grunt. Use to release projects on NPM, Bower and Component.
+Opinionated software release plugin for Grunt. Use to release projects on NPM, and Bower.
 
-The process used by `grunt-releaseable` us based on the publish script for [Leaflet](https://github.com/Leaflet/Leaflet/blob/master/build/publish.sh) which releases on NPM, Bower and Component but does not keep the built files in the main branch.
+The process used by `grunt-releaseable` us based on the publish script for [Leaflet](https://github.com/Leaflet/Leaflet/blob/master/build/publish.sh) which releases on NPM and Bower but does not keep the built files in the main branch.
 
 Releasing follows this process.
 
 1. Run test script
-2. If they exist bump versions in `bower.json` and `component.json` to match `package.json`
+2. If it exists, bump versions in `bower.json` to match `package.json`
 3. Commit the bumped files
 4. Checkout a temporary branch to make the build on
 5. Run your build script
@@ -64,10 +64,10 @@ The version you want to release is the version that is CURRENTLY in your `packag
 ```js
 grunt.initConfig({
   releaseable: {
-    options: {
-      // Task-specific options go here.
-    },
-  },
+    release: {
+      options: {}
+    }
+  }
 });
 ```
 
@@ -77,7 +77,7 @@ grunt.initConfig({
 Type: `String`
 Default value: `version` from your package.json. If the version in your package.json is a valid [SemVer](http://semver.org/) `v` will be prepended to your version.
  
-The version to tag with repo with. versions inside `bower.json` and `component.json` will also be bumped if they are in your project root.
+The version to tag with repo with. version inside `bower.json` will also be bumped if it is in your project root.
 
 #### options.build
 Type: `String`
@@ -110,14 +110,16 @@ If `true` will not actually run commands just print log messages so you can conf
 ```js
 grunt.initConfig({
   releaseable: {
-    options: {
-      version: 'VERSION FROM YOUR package.json',
-      build: 'npm prepublish',
-      test: 'npm test',
-      remote: 'origin',
-      dryRun: false
-    },
-  },
+    release: {
+      options: {
+        version: 'VERSION FROM YOUR package.json',
+        build: 'npm prepublish',
+        test: 'npm test',
+        remote: 'origin',
+        dryRun: false
+      }
+    }
+  }
 });
 ```
 
@@ -128,12 +130,14 @@ This custom setup uses `grunt test` and `grunt build` in place of `npm test` and
 ```js
 grunt.initConfig({
   releaseable: {
-    options: {
-      version: 'v1.0.0',
-      test: 'grunt test',
-      build: 'grunt build',
-      remote: 'git@github.com:patrickarlt/grunt-releaseable.git',
-      dryRun: true
+    release: {
+      options: {
+        version: 'v1.0.0',
+        test: 'grunt test',
+        build: 'grunt build',
+        remote: 'git@github.com:patrickarlt/grunt-releaseable.git',
+        dryRun: true
+      }
     }
   },
 });
@@ -141,7 +145,7 @@ grunt.initConfig({
 
 #### With grunt-bump
 
-If you REALLY dont want to bump the version in your package.json manually you can use [grunt-bump](https://github.com/vojtajina/grunt-bump).
+If you REALLY don't want to bump the version in your `package.json` manually you can use [grunt-bump](https://github.com/vojtajina/grunt-bump).
 
 ```js
 grunt.initConfig({
