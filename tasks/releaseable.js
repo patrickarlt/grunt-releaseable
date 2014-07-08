@@ -28,7 +28,8 @@ module.exports = function(grunt) {
       test: 'npm test',
       remote: 'origin',
       mainBranch: 'master',
-      dryRun: false
+      dryRun: false,
+      silent: true
     });
 
     function bumpFile(file){
@@ -48,7 +49,7 @@ module.exports = function(grunt) {
     if(opts.test){
       grunt.log.write('running tests with ' + opts.test + '... ');
       if(!opts.dryRun){
-        shelljs.exec(opts.test);
+        shelljs.exec(opts.test, {silent: opts.silent});
       }
       grunt.log.ok();
     }
@@ -58,53 +59,53 @@ module.exports = function(grunt) {
 
       grunt.log.write('commiting bummped files... ');
       if(!opts.dryRun){
-        shelljs.exec('git commit -am"bumping version  to '+ opts.version + '"');
+        shelljs.exec('git commit -am"bumping version  to '+ opts.version + '"', {silent: opts.silent});
       }
       grunt.log.ok();
     }
 
     grunt.log.write('checking out temporay branch to build and release on... ');
     if(!opts.dryRun){
-      shelljs.exec('git checkout -b _releaseable');
+      shelljs.exec('git checkout -b _releaseable', {silent: opts.silent});
     }
     grunt.log.ok();
 
     if(opts.build){
       grunt.log.write('building with ' + opts.build + '... ');
       if(!opts.dryRun){
-        shelljs.exec(opts.build);
+        shelljs.exec(opts.build, {silent: opts.silent});
       }
       grunt.log.ok();
     }
 
     grunt.log.write('commiting built files... ');
     if(!opts.dryRun){
-      shelljs.exec('git commit -am"build version '+ opts.version + '"');
+      shelljs.exec('git commit -am"build version '+ opts.version + '"', {silent: opts.silent});
     }
     grunt.log.ok();
 
     grunt.log.write('tagging build ' + opts.version + '... ');
     if(!opts.dryRun){
-      shelljs.exec('git tag ' + opts.version);
+      shelljs.exec('git tag ' + opts.version, {silent: opts.silent});
     }
     grunt.log.ok();
 
     grunt.log.write('pushing build to ' + opts.remote + '... ');
     if(!opts.dryRun){
-      shelljs.exec('git push --tags ' + opts.remote + ' ' + opts.version);
+      shelljs.exec('git push --tags ' + opts.remote + ' ' + opts.version, {silent: opts.silent});
     }
     grunt.log.ok();
 
     grunt.log.write('publishing on NPM... ');
     if(!opts.dryRun){
-      shelljs.exec('npm publish');
+      shelljs.exec('npm publish', {silent: opts.silent});
     }
     grunt.log.ok();
 
     grunt.log.write('cleaning up... ');
     if(!opts.dryRun){
-      shelljs.exec('git checkout '+ opts.mainBranch);
-      shelljs.exec('git branch -D _releaseable');
+      shelljs.exec('git checkout '+ opts.mainBranch, {silent: opts.silent});
+      shelljs.exec('git branch -D _releaseable', {silent: opts.silent});
     }
     grunt.log.ok();
   });
