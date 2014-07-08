@@ -31,20 +31,8 @@ module.exports = function(grunt) {
       buildCommitMsg: function(version){ return 'building ' + version; }
     });
 
-    function bumpFile(file){
-      grunt.log.write('bumping '+ file + ' to ' + opts.version + '... ');
-      if(!opts.dryRun){
-        var content = grunt.file.read(file).replace(VERSION_REGEXP, function(match, prefix, parsedVersion, suffix){
-          if (!match) {
-            grunt.fatal('no version to bump in ' + file);
-          }
-          return prefix + opts.version + suffix;
-        });
-        grunt.file.write(file, content);
-      }
-      if(!opts.silent){
-        grunt.log.ok();
-      }
+    if(!opts.silent){
+      grunt.log.subhead('Running Tests');
     }
 
     if(opts.test){
@@ -52,79 +40,114 @@ module.exports = function(grunt) {
       if(!opts.dryRun){
         shelljs.exec(opts.test, {silent: opts.silent});
       }
-      if(!opts.silent){
+      if(opts.silent){
         grunt.log.ok();
       }
     }
 
     if(fs.existsSync('bower.json')){
-      bumpFile('bower.json');
+      if(!opts.silent){
+        grunt.log.subhead('Bumping bower.json');
+      }
+      grunt.log.write('bumping bower.json to ' + opts.version + '... ');
+      if(!opts.dryRun){
+        var content = grunt.file.read('bower.json').replace(VERSION_REGEXP, function(match, prefix, parsedVersion, suffix){
+          return prefix + opts.version + suffix;
+        });
+        grunt.file.write('bower.json', content);
+      }
+      if(opts.silent){
+        grunt.log.ok();
+      }
 
       grunt.log.write('commiting bummped files... ');
       if(!opts.dryRun){
         shelljs.exec('git commit -am"' + opts.bumpCommitMsg(opts.version) + '"', {silent: opts.silent});
       }
-      if(!opts.silent){
+      if(opts.silent){
         grunt.log.ok();
       }
     }
 
+    if(!opts.silent){
+      grunt.log.subhead('Checking out temporay branch');
+    }
     grunt.log.write('checking out temporay branch to build and release on... ');
     if(!opts.dryRun){
       shelljs.exec('git checkout -b _releaseable', {silent: opts.silent});
     }
-    if(!opts.silent){
+    if(opts.silent){
       grunt.log.ok();
     }
 
     if(opts.build){
+      if(!opts.silent){
+        grunt.log.subhead('Starting build');
+      }
       grunt.log.write('building with ' + opts.build + '... ');
       if(!opts.dryRun){
         shelljs.exec(opts.build, {silent: opts.silent});
       }
-      if(!opts.silent){
+      if(opts.silent){
         grunt.log.ok();
+      } else {
+        grunt.log.subhead();
       }
     }
 
+    if(!opts.silent){
+      grunt.log.subhead('Commiting built files');
+    }
     grunt.log.write('commiting built files... ');
     if(!opts.dryRun){
       shelljs.exec('git commit -am"' + opts.buildCommitMsg(opts.version) + '"', {silent: opts.silent});
     }
-    if(!opts.silent){
+    if(opts.silent){
       grunt.log.ok();
     }
 
+    if(!opts.silent){
+      grunt.log.subhead('Tagging build');
+    }
     grunt.log.write('tagging build ' + opts.version + '... ');
     if(!opts.dryRun){
       shelljs.exec('git tag ' + opts.version, {silent: opts.silent});
     }
-    if(!opts.silent){
+    if(opts.silent){
       grunt.log.ok();
     }
 
+    if(!opts.silent){
+      grunt.log.subhead('Pushing build');
+    }
     grunt.log.write('pushing build to ' + opts.remote + '... ');
     if(!opts.dryRun){
       shelljs.exec('git push --tags ' + opts.remote + ' ' + opts.version, {silent: opts.silent});
     }
-    if(!opts.silent){
+    if(opts.silent){
       grunt.log.ok();
     }
 
+    if(!opts.silent){
+      grunt.log.subhead('Publishing');
+    }
     grunt.log.write('publishing on NPM... ');
     if(!opts.dryRun){
       shelljs.exec('npm publish', {silent: opts.silent});
     }
-    if(!opts.silent){
+    if(opts.silent){
       grunt.log.ok();
     }
 
+    if(!opts.silent){
+      grunt.log.subhead('Clean up');
+    }
     grunt.log.write('cleaning up... ');
     if(!opts.dryRun){
       shelljs.exec('git checkout '+ opts.mainBranch, {silent: opts.silent});
       shelljs.exec('git branch -D _releaseable', {silent: opts.silent});
     }
-    if(!opts.silent){
+    if(opts.silent){
       grunt.log.ok();
     }
   });
