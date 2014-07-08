@@ -103,6 +103,12 @@ Default value: `false`
 
 If `true` will not actually run commands just print log messages so you can confirm setup is corrent.
 
+#### options.silent
+Type: `Boolean`
+Default value: `true`
+
+If `false` this will enable verbose output from all shell commands run by `grunt releaseable`.
+
 ### Usage Examples
 
 #### Default Options

@@ -23,7 +23,9 @@ module.exports = function(grunt) {
     },
     releaseable: {
       release: {
-        options: {}
+        options: {
+          silent: false
+        }
       }
     }
   });

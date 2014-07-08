@@ -14,9 +14,6 @@ var fs = require('fs');
 
 module.exports = function(grunt) {
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
-
   grunt.registerMultiTask('releaseable', 'Opinionated task for running the test, build, tag, publish cycle', function() {
     var VERSION_REGEXP = /([\'|\"]?version[\'|\"]?[ ]*:[ ]*[\'|\"]?)([\d||A-a|.|-]*)([\'|\"]?)/i;
 
@@ -43,7 +40,9 @@ module.exports = function(grunt) {
         });
         grunt.file.write(file, content);
       }
-      grunt.log.ok();
+      if(!opts.silent){
+        grunt.log.ok();
+      }
     }
 
     if(opts.test){
@@ -51,7 +50,9 @@ module.exports = function(grunt) {
       if(!opts.dryRun){
         shelljs.exec(opts.test, {silent: opts.silent});
       }
-      grunt.log.ok();
+      if(!opts.silent){
+        grunt.log.ok();
+      }
     }
 
     if(fs.existsSync('bower.json')){
@@ -61,52 +62,68 @@ module.exports = function(grunt) {
       if(!opts.dryRun){
         shelljs.exec('git commit -am"bumping version  to '+ opts.version + '"', {silent: opts.silent});
       }
-      grunt.log.ok();
+      if(!opts.silent){
+        grunt.log.ok();
+      }
     }
 
     grunt.log.write('checking out temporay branch to build and release on... ');
     if(!opts.dryRun){
       shelljs.exec('git checkout -b _releaseable', {silent: opts.silent});
     }
-    grunt.log.ok();
+    if(!opts.silent){
+      grunt.log.ok();
+    }
 
     if(opts.build){
       grunt.log.write('building with ' + opts.build + '... ');
       if(!opts.dryRun){
         shelljs.exec(opts.build, {silent: opts.silent});
       }
-      grunt.log.ok();
+      if(!opts.silent){
+        grunt.log.ok();
+      }
     }
 
     grunt.log.write('commiting built files... ');
     if(!opts.dryRun){
       shelljs.exec('git commit -am"build version '+ opts.version + '"', {silent: opts.silent});
     }
-    grunt.log.ok();
+    if(!opts.silent){
+      grunt.log.ok();
+    }
 
     grunt.log.write('tagging build ' + opts.version + '... ');
     if(!opts.dryRun){
       shelljs.exec('git tag ' + opts.version, {silent: opts.silent});
     }
-    grunt.log.ok();
+    if(!opts.silent){
+      grunt.log.ok();
+    }
 
     grunt.log.write('pushing build to ' + opts.remote + '... ');
     if(!opts.dryRun){
       shelljs.exec('git push --tags ' + opts.remote + ' ' + opts.version, {silent: opts.silent});
     }
-    grunt.log.ok();
+    if(!opts.silent){
+      grunt.log.ok();
+    }
 
     grunt.log.write('publishing on NPM... ');
     if(!opts.dryRun){
       shelljs.exec('npm publish', {silent: opts.silent});
     }
-    grunt.log.ok();
+    if(!opts.silent){
+      grunt.log.ok();
+    }
 
     grunt.log.write('cleaning up... ');
     if(!opts.dryRun){
       shelljs.exec('git checkout '+ opts.mainBranch, {silent: opts.silent});
       shelljs.exec('git branch -D _releaseable', {silent: opts.silent});
     }
-    grunt.log.ok();
+    if(!opts.silent){
+      grunt.log.ok();
+    }
   });
 };
