@@ -1,6 +1,6 @@
 {
   "name": "releaseable-test",
-  "version": "v0.0.10",
+  "version": "v0.0.11",
   "authors": [
     "Patrick Arlt <patrick.arlt@gmail.com>"
   ],
@@ -19,8 +19,6 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "bower_components"
   ]
 }
