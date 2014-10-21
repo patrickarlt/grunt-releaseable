@@ -24,10 +24,11 @@ module.exports = function(grunt) {
     releaseable: {
       release: {
         options: {
-          silent: false,
-        }
-        files: [
-          'test'
+          // dryRun: true,
+          silent: false
+        },
+        src: [
+          'test/*'
         ]
       }
     }

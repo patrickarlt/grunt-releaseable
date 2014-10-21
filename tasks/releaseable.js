@@ -100,7 +100,11 @@ module.exports = function(grunt) {
     }
     grunt.log.write('adding built files... ');
     if(!opts.dryRun){
-      shelljs.exec('git add '+this.files.join(' ')+' -f', {silent: opts.silent});
+      var  filesToCommit = [];
+      for (var i = this.files.length - 1; i >= 0; i--) {
+        filesToCommit.push(this.files[i].src)
+      };
+      shelljs.exec('git add ' + filesToCommit.join(' ') + ' -f', {silent: opts.silent});
     }
     if(opts.silent){
       grunt.log.ok();
