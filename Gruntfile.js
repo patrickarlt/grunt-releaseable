@@ -26,6 +26,9 @@ module.exports = function(grunt) {
         options: {
           silent: false,
         }
+        files: [
+          'test'
+        ]
       }
     }
   });

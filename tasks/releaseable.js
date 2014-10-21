@@ -96,11 +96,22 @@ module.exports = function(grunt) {
     }
 
     if(!opts.silent){
+      grunt.log.subhead('Adding built files to git');
+    }
+    grunt.log.write('adding built files... ');
+    if(!opts.dryRun){
+      shelljs.exec('git add '+this.files.join(' ')+' -f', {silent: opts.silent});
+    }
+    if(opts.silent){
+      grunt.log.ok();
+    }
+
+    if(!opts.silent){
       grunt.log.subhead('Commiting built files');
     }
     grunt.log.write('commiting built files... ');
     if(!opts.dryRun){
-      shelljs.exec('git commit -am"' + opts.buildCommitMsg(opts.version) + '"', {silent: opts.silent});
+      shelljs.exec('git commit -m"' + opts.buildCommitMsg(opts.version) + '"', {silent: opts.silent});
     }
     if(opts.silent){
       grunt.log.ok();
