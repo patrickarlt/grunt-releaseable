@@ -102,8 +102,10 @@ module.exports = function(grunt) {
     if(!opts.dryRun){
       var  filesToCommit = [];
       for (var i = this.files.length - 1; i >= 0; i--) {
-        filesToCommit.push(this.files[i].src)
-      };
+        for (var j = this.files[i].src.length - 1; j >= 0; j--) {
+          filesToCommit.push(this.files[i].src[j]);
+        }
+      }
       shelljs.exec('git add ' + filesToCommit.join(' ') + ' -f', {silent: opts.silent});
     }
     if(opts.silent){
