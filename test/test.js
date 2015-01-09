@@ -1,4 +1,4 @@
-// VERSION 0.0.13
+// VERSION 0.0.14
 /* globals define:true */
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
