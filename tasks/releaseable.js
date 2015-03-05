@@ -21,7 +21,7 @@ module.exports = function(grunt) {
 
     var opts = this.options({
       version: semver.valid(packageVersion) ? 'v' + packageVersion : packageVersion,
-      build: 'npm prepublish',
+      build: 'npm run prepublish',
       test: 'npm test',
       remote: 'origin',
       mainBranch: 'master',
